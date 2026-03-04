@@ -50,7 +50,7 @@ body{
   -webkit-font-smoothing: antialiased;
 }
 
-/* Noise Texture */
+/* Noise Texture Overlay */
 body::after {
   content: "";
   position: fixed;
@@ -61,13 +61,25 @@ body::after {
   z-index: 9999;
 }
 
-/* Background Blobs */
+/* Global Galaxy Canvas - Fixed Background */
+#galaxyCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Global Background Blobs */
 .bg-blobs {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
   z-index: -1;
   filter: blur(80px);
-  opacity: 0.3;
+  opacity: 0.25;
   pointer-events: none;
 }
 .blob {
@@ -132,7 +144,6 @@ nav a::after {
 nav a:hover, nav a.active { opacity: 1; color: var(--accent); }
 nav a.active::after { width: 100%; }
 
-/* Mobile Menu Trigger */
 .menu-trigger {
   display: none;
   background: none;
@@ -153,7 +164,9 @@ nav a.active::after { width: 100%; }
   align-items: center;
   text-align: center;
   padding: 0 6%;
+  position: relative;
 }
+
 .hero-tag {
   font-size: 11px;
   font-weight: 800;
@@ -165,6 +178,7 @@ nav a.active::after { width: 100%; }
   transform: translateY(20px);
   animation: fadeInUp 1s forwards 0.2s;
 }
+
 .hero-title {
   font-size: clamp(42px, 12vw, 110px);
   font-weight: 900;
@@ -174,7 +188,11 @@ nav a.active::after { width: 100%; }
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 1s forwards 0.4s;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 40px rgba(16, 185, 129, 0.15);
 }
+
 .hero-title span {
   display: block;
   background: var(--accent-gradient);
@@ -185,7 +203,7 @@ nav a.active::after { width: 100%; }
 /* =============================
    4. GRID & CARDS
 ============================== */
-section { padding: 80px 6%; }
+section { padding: 80px 6%; position: relative; }
 
 .section-title {
   font-size: clamp(30px, 6vw, 54px);
@@ -209,6 +227,7 @@ section { padding: 80px 6%; }
   aspect-ratio: 16/11;
   text-decoration: none;
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s;
+  backdrop-filter: blur(10px);
 }
 
 .image-card img {
@@ -265,6 +284,7 @@ section { padding: 80px 6%; }
   position: relative;
   overflow: hidden;
   text-align: center;
+  backdrop-filter: blur(15px);
 }
 
 .socials { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 35px; }
@@ -327,6 +347,9 @@ footer { padding: 60px 0 30px; text-align: center; opacity: 0.3; font-size: 10px
 </head>
 <body>
 
+<!-- GALAXY CANVAS - GLOBAL BACKGROUND -->
+<canvas id="galaxyCanvas"></canvas>
+
 <!-- AUDIO ELEMENT -->
 <audio id="bgm" loop preload="auto">
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
@@ -369,6 +392,7 @@ footer { padding: 60px 0 30px; text-align: center; opacity: 0.3; font-size: 10px
 <section id="hero">
   <p class="hero-tag">Visual Identity Studio</p>
   <h2 class="hero-title">Elevate Your <span>Presence.</span></h2>
+  
   <div class="magnetic" style="margin-top: 20px; opacity:0.3;">
     <i data-lucide="chevron-down" style="width:24px; height:24px; animation: bounce 2s infinite;"></i>
   </div>
@@ -481,7 +505,100 @@ if (vis) {
   }
 }
 
-// Glare Interaction
+// =============================
+// GLOBAL GALAXY VORTEX EFFECT
+// =============================
+const canvas = document.getElementById('galaxyCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+let targetMouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+function initGalaxy() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  particles = [];
+  const particleCount = 250; // Increased for global coverage
+  
+  for(let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+}
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    this.radius = Math.random() * 2.2;
+    this.angle = Math.random() * Math.PI * 2;
+    // Distance varies for depth
+    this.distance = Math.random() * (Math.max(canvas.width, canvas.height) * 0.8);
+    this.speed = (Math.random() * 0.004) + 0.0015;
+    this.color = Math.random() > 0.4 ? '#10b981' : '#ffffff';
+    this.opacity = Math.random() * 0.5 + 0.15;
+  }
+
+  update() {
+    this.angle += this.speed;
+    
+    // Vortex center follows mouse
+    let centerX = mouse.x;
+    let centerY = mouse.y;
+
+    this.x = centerX + Math.cos(this.angle) * this.distance;
+    this.y = centerY + Math.sin(this.angle) * this.distance;
+
+    // Subtle drift toward center
+    this.distance -= 0.15;
+    if (this.distance < 20) this.reset();
+  }
+
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.globalAlpha = this.opacity;
+    ctx.fill();
+    ctx.closePath();
+  }
+}
+
+function animateGalaxy() {
+  // Clearing with trail logic
+  const bgColor = getComputedStyle(document.body).getPropertyValue('--bg').trim();
+  ctx.fillStyle = bgColor;
+  ctx.globalAlpha = 0.18; // Controls trail length
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.globalAlpha = 1;
+
+  // Smooth mouse follow
+  mouse.x += (targetMouse.x - mouse.x) * 0.06;
+  mouse.y += (targetMouse.y - mouse.y) * 0.06;
+
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animateGalaxy);
+}
+
+window.addEventListener('resize', initGalaxy);
+window.addEventListener('mousemove', (e) => {
+  targetMouse.x = e.clientX;
+  targetMouse.y = e.clientY;
+});
+
+// Run
+initGalaxy();
+animateGalaxy();
+
+// =============================
+// INTERACTION SCRIPTS
+// =============================
+
+// Glare Interaction for Cards
 document.querySelectorAll('.image-card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const rect = card.getBoundingClientRect();
@@ -508,7 +625,7 @@ document.addEventListener('mousemove', e => {
   });
 });
 
-// Audio & Animation Logic
+// Audio Logic
 let isPlaying = false;
 let animations = [];
 
@@ -516,10 +633,7 @@ function toggleMusic() {
   const audio = document.getElementById('bgm');
   const visualizer = document.getElementById('visualizer');
   const musicIconElement = document.getElementById('musicIcon');
-  
   if (!audio || !visualizer || !musicIconElement) return;
-
-  // The parent might change if Lucide replaces icons
   const musicBtn = musicIconElement.closest('.icon-btn');
 
   if (isPlaying) {
@@ -534,20 +648,14 @@ function toggleMusic() {
       visualizer.style.opacity = "0.4";
       if (musicBtn) musicBtn.style.color = "var(--accent)";
       startBars();
-    }).catch(e => {
-      console.log("Audio blocked or source issue.");
-      // Fallback state if play fails
-      isPlaying = false;
-    });
+    }).catch(e => { isPlaying = false; });
   }
   isPlaying = !isPlaying;
 }
 
 function startBars() {
-  // Clear existing animations if any
   animations.forEach(a => a.cancel());
   animations = [];
-  
   document.querySelectorAll('.v-bar').forEach(bar => {
     const anim = bar.animate([
       { height: '5%' },
@@ -567,14 +675,13 @@ function toggleMenu() {
   const nav = document.getElementById('mainNav');
   const icon = document.getElementById('menuIcon');
   if (!nav || !icon) return;
-  
   nav.classList.toggle('active');
   const isActive = nav.classList.contains('active');
   icon.setAttribute('data-lucide', isActive ? 'x' : 'menu');
   lucide.createIcons();
 }
 
-// Close mobile menu on click
+// Close mobile menu
 document.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', () => {
     const nav = document.getElementById('mainNav');
@@ -590,7 +697,6 @@ document.querySelectorAll('.nav-link').forEach(link => {
 // Scroll Spy
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-link');
-
 window.addEventListener('scroll', () => {
   let current = "";
   sections.forEach(section => {
@@ -599,7 +705,6 @@ window.addEventListener('scroll', () => {
       current = section.getAttribute('id');
     }
   });
-
   navLinks.forEach(link => {
     link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
   });
