@@ -6,7 +6,7 @@
 <meta name="referrer" content="no-referrer">
 <title>Avro Production — Graphic Design Portfolio</title>
 
-<!-- GOOGLE FONTS - Script font for Logo -->
+<!-- GOOGLE FONTS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
   --accent-soft: rgba(16, 185, 129, 0.15);
   --accent-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
   --header-bg: rgba(4, 7, 5, 0.7);
-  --glass-blur: 30px;
+  --glass-blur: 25px;
   --noise: url("https://grains.vectorizer.io/static/img/noise.png");
 }
 
@@ -50,7 +50,7 @@ body{
   -webkit-font-smoothing: antialiased;
 }
 
-/* Noise Texture Overlay */
+/* Noise Texture */
 body::after {
   content: "";
   position: fixed;
@@ -61,24 +61,24 @@ body::after {
   z-index: 9999;
 }
 
-/* Liquid Background Blobs */
+/* Background Blobs */
 .bg-blobs {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
   z-index: -1;
   filter: blur(80px);
-  opacity: 0.4;
+  opacity: 0.3;
   pointer-events: none;
 }
 .blob {
   position: absolute;
   background: var(--accent);
   border-radius: 50%;
-  animation: drift 20s infinite alternate ease-in-out;
+  animation: drift 25s infinite alternate ease-in-out;
 }
 @keyframes drift {
   0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(20vw, 30vh) scale(1.5); }
+  100% { transform: translate(15vw, 20vh) scale(1.4); }
 }
 
 /* =============================
@@ -99,23 +99,17 @@ header {
   border-bottom: 1px solid var(--card-border);
 }
 
-.logo {
-  text-decoration: none;
-  color: var(--text);
-}
-
+.logo { text-decoration: none; position: relative; z-index: 2100; }
 .logo h1 { 
   font-family: 'Satisfy', cursive;
   font-weight: 400; 
-  font-size: 28px; 
-  letter-spacing: 0px; 
-  text-transform: none;
+  font-size: 26px; 
   background: var(--accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-nav { display: flex; align-items: center; gap: 30px; }
+nav { display: flex; align-items: center; gap: 25px; }
 nav a {
   text-decoration: none;
   color: var(--text);
@@ -123,21 +117,30 @@ nav a {
   font-weight: 600;
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   position: relative;
 }
 nav a::after {
   content: '';
   position: absolute;
-  bottom: -4px; left: 50%;
+  bottom: -4px; left: 0;
   width: 0; height: 2px;
   background: var(--accent);
-  transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-  transform: translateX(-50%);
+  transition: 0.4s ease;
 }
 nav a:hover, nav a.active { opacity: 1; color: var(--accent); }
 nav a.active::after { width: 100%; }
+
+/* Mobile Menu Trigger */
+.menu-trigger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  z-index: 2100;
+}
 
 /* =============================
    3. HERO SECTION
@@ -152,22 +155,22 @@ nav a.active::after { width: 100%; }
   padding: 0 6%;
 }
 .hero-tag {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: 4px;
+  letter-spacing: 5px;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 1s forwards 0.2s;
 }
 .hero-title {
-  font-size: clamp(40px, 10vw, 120px);
+  font-size: clamp(42px, 12vw, 110px);
   font-weight: 900;
-  line-height: 0.9;
-  letter-spacing: -4px;
-  margin-bottom: 30px;
+  line-height: 1;
+  letter-spacing: -3px;
+  margin-bottom: 25px;
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 1s forwards 0.4s;
@@ -178,53 +181,47 @@ nav a.active::after { width: 100%; }
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-@keyframes fadeInUp {
-  to { opacity: 1; transform: translateY(0); }
-}
 
 /* =============================
    4. GRID & CARDS
 ============================== */
-section { padding: 100px 6%; }
+section { padding: 80px 6%; }
 
 .section-title {
-  font-size: clamp(32px, 5vw, 60px);
+  font-size: clamp(30px, 6vw, 54px);
   font-weight: 800;
   letter-spacing: -2px;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
 }
 
 .image-card {
   position: relative;
-  border-radius: 40px;
+  border-radius: 35px;
   overflow: hidden;
   background: var(--card);
   border: 1px solid var(--card-border);
   aspect-ratio: 16/11;
   text-decoration: none;
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s;
-  cursor: pointer;
 }
 
 .image-card img {
   width: 100%; height: 100%;
   object-fit: cover;
-  filter: grayscale(20%);
-  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Glare Effect */
 .image-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.15) 0%, transparent 50%);
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.1) 0%, transparent 60%);
   opacity: 0;
   z-index: 2;
   transition: opacity 0.3s;
@@ -232,19 +229,19 @@ section { padding: 100px 6%; }
 }
 
 .image-card:hover { 
-  transform: translateY(-10px) scale(1.01); 
+  transform: translateY(-8px); 
   border-color: var(--accent);
-  box-shadow: 0 30px 60px rgba(16, 185, 129, 0.15);
+  box-shadow: 0 25px 50px rgba(16, 185, 129, 0.12);
 }
-.image-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
+.image-card:hover img { transform: scale(1.04); }
 .image-card:hover::before { opacity: 1; }
 
 .badge {
   position: absolute;
-  bottom: 30px; left: 30px;
-  background: rgba(0, 0, 0, 0.6);
+  bottom: 20px; left: 20px;
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
-  padding: 8px 20px;
+  padding: 6px 16px;
   border-radius: 100px;
   font-size: 10px;
   font-weight: 700;
@@ -252,34 +249,28 @@ section { padding: 100px 6%; }
   z-index: 3;
   letter-spacing: 1px;
   text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
 /* =============================
-   5. CONTACT & SOCIALS
+   5. CONTACT
 ============================== */
 .contact-container {
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 80px 40px;
+  padding: 60px 30px;
   background: var(--card);
-  border-radius: 60px;
+  border-radius: 40px;
   border: 1px solid var(--card-border);
   position: relative;
   overflow: hidden;
+  text-align: center;
 }
 
-.contact-container::after {
-  content: '';
-  position: absolute;
-  top: -50%; right: -20%; width: 60%; height: 200%;
-  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
-  z-index: 0;
-}
-
-.socials { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 40px; }
+.socials { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 35px; }
 .socials a {
   background: rgba(255, 255, 255, 0.05);
-  padding: 16px 28px;
+  padding: 14px 22px;
   border-radius: 100px;
   text-decoration: none;
   color: var(--text);
@@ -287,46 +278,73 @@ section { padding: 100px 6%; }
   font-size: 13px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   border: 1px solid var(--card-border);
-  transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: 0.3s;
 }
 .socials a:hover {
   background: var(--accent);
   color: white;
-  transform: translateY(-5px);
+  transform: translateY(-3px);
 }
 
 /* =============================
-   6. MOBILE
+   6. MOBILE RESPONSIVE
 ============================== */
-@media(max-width: 768px) {
-  header { padding: 15px 5%; }
-  nav { display: none; }
-  #hero { text-align: left; align-items: flex-start; }
+@media(max-width: 850px) {
+  nav {
+    position: fixed;
+    top: 0; right: -100%;
+    width: 80%;
+    max-width: 320px;
+    height: 100vh;
+    background: var(--header-bg);
+    backdrop-filter: blur(40px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 40px;
+    transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 1px solid var(--card-border);
+  }
+  nav.active { right: 0; }
+  nav a { font-size: 28px; text-transform: none; opacity: 0.7; letter-spacing: -1px; }
+  .menu-trigger { display: block; }
+  
   .grid { grid-template-columns: 1fr; }
-  .contact-container { padding: 60px 20px; border-radius: 40px; }
+  #hero { text-align: center; }
+  .hero-title { letter-spacing: -2px; }
 }
 
-footer { padding: 80px 0 40px; text-align: center; opacity: 0.3; font-size: 11px; letter-spacing: 2px; }
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+.v-bar { transition: height 0.1s ease; }
+
+footer { padding: 60px 0 30px; text-align: center; opacity: 0.3; font-size: 10px; letter-spacing: 2px; }
 
 </style>
 </head>
 <body>
 
+<!-- AUDIO ELEMENT -->
+<audio id="bgm" loop preload="auto">
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
 <div class="bg-blobs">
-  <div class="blob" style="width: 40vw; height: 40vw; top: -10vh; left: -10vw; animation-duration: 25s;"></div>
-  <div class="blob" style="width: 30vw; height: 30vw; bottom: -10vh; right: -10vw; background: #059669; animation-delay: -5s;"></div>
+  <div class="blob" style="width: 40vw; height: 40vw; top: -10vh; left: -10vw;"></div>
+  <div class="blob" style="width: 30vw; height: 30vw; bottom: -10vh; right: -10vw; background: #059669;"></div>
 </div>
 
 <header id="header">
   <a href="#" class="logo"><h1>Avro Production</h1></a>
   
-  <div class="visualizer" id="visualizer" style="position:absolute; bottom:0; left:0; width:100%; height:100%; opacity:0.1; display:flex; align-items:flex-end; pointer-events:none;">
+  <div class="visualizer" id="visualizer" style="position:absolute; bottom:0; left:0; width:100%; height:100%; opacity:0.1; display:flex; align-items:flex-end; pointer-events:none; z-index:0;">
     <!-- Bars generated by script -->
   </div>
 
-  <div class="nav-actions" style="display:flex; align-items:center; gap:20px;">
+  <div class="nav-actions" style="display:flex; align-items:center; gap:15px; position:relative; z-index:2200;">
     <nav id="mainNav">
       <a href="#branding" class="nav-link">Branding</a>
       <a href="#logos" class="nav-link">Logos</a>
@@ -335,21 +353,24 @@ footer { padding: 80px 0 40px; text-align: center; opacity: 0.3; font-size: 11px
       <a href="#contact" class="nav-link">Contact</a>
     </nav>
 
-    <button class="icon-btn magnetic" onclick="toggleMusic()" style="background:none; border:none; color:var(--text); cursor:pointer;">
+    <button class="icon-btn magnetic" onclick="toggleMusic()" style="background:none; border:none; color:var(--text); cursor:pointer; padding:8px;">
       <i data-lucide="music" id="musicIcon"></i>
     </button>
-    <button class="icon-btn magnetic" onclick="toggleMode()" style="background:none; border:none; color:var(--text); cursor:pointer;">
+    <button class="icon-btn magnetic" onclick="toggleMode()" style="background:none; border:none; color:var(--text); cursor:pointer; padding:8px;">
       <i data-lucide="sun" id="themeIcon"></i>
+    </button>
+    <button class="menu-trigger" onclick="toggleMenu()">
+      <i data-lucide="menu" id="menuIcon"></i>
     </button>
   </div>
 </header>
 
 <!-- HERO -->
 <section id="hero">
-  <p class="hero-tag">Visual Storytelling</p>
-  <h2 class="hero-title">High Impact <span>Branding.</span></h2>
-  <div class="magnetic" style="margin-top: 40px; opacity:0.4;">
-    <i data-lucide="chevron-down" style="width:32px; height:32px; animation: bounce 2s infinite;"></i>
+  <p class="hero-tag">Visual Identity Studio</p>
+  <h2 class="hero-title">Elevate Your <span>Presence.</span></h2>
+  <div class="magnetic" style="margin-top: 20px; opacity:0.3;">
+    <i data-lucide="chevron-down" style="width:24px; height:24px; animation: bounce 2s infinite;"></i>
   </div>
 </section>
 
@@ -362,7 +383,7 @@ footer { padding: 80px 0 40px; text-align: center; opacity: 0.3; font-size: 11px
       <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/039c04207865239.66e44040a45e4.jpg" loading="lazy">
     </a>
     <a href="https://www.behance.net/avroproduction" target="_blank" class="image-card">
-      <span class="badge">Digital Identity</span>
+      <span class="badge">Digital</span>
       <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/d7f8ca233159715.68aa552095018.png" loading="lazy">
     </a>
   </div>
@@ -371,7 +392,7 @@ footer { padding: 80px 0 40px; text-align: center; opacity: 0.3; font-size: 11px
 <!-- LOGO SECTION -->
 <section id="logos">
   <h2 class="section-title">Logo Design</h2>
-  <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+  <div class="grid">
     <a href="https://www.behance.net/avroproduction" target="_blank" class="image-card" style="aspect-ratio: 1/1;">
       <span class="badge">Logo</span>
       <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/e65e52207865239.66e44040a3317.jpg" loading="lazy">
@@ -392,11 +413,11 @@ footer { padding: 80px 0 40px; text-align: center; opacity: 0.3; font-size: 11px
   <h2 class="section-title">Social Strategy</h2>
   <div class="grid">
     <a href="https://www.behance.net/gallery/234202093/My-recent-Social-Media-Post-Design-for-Local-Client" target="_blank" class="image-card">
-      <span class="badge">Social</span>
+      <span class="badge">Campaign</span>
       <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/3e790a234202093.67c570f7166e4.jpg" loading="lazy">
     </a>
     <a href="https://www.behance.net/avroproduction" target="_blank" class="image-card">
-      <span class="badge">Campaign</span>
+      <span class="badge">Social</span>
       <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5e0051199839447.665796a56f082.jpg" loading="lazy">
     </a>
   </div>
@@ -424,44 +445,43 @@ footer { padding: 80px 0 40px; text-align: center; opacity: 0.3; font-size: 11px
 <!-- CONTACT -->
 <section id="contact">
   <div class="contact-container">
-    <div style="position:relative; z-index:1;">
-      <h2 style="font-size: clamp(32px, 6vw, 60px); font-weight: 900; letter-spacing: -3px; margin-bottom: 20px;">Ready to Start?</h2>
-      <p style="opacity: 0.5; font-size: 18px; max-width: 600px; margin: 0 auto 40px; font-weight: 500;">
-        Currently accepting new branding and identity projects for 2026.
-      </p>
-      
-      <div class="socials">
-        <a href="mailto:hello@avro.pro" class="magnetic"><i data-lucide="mail"></i> Email</a>
-        <a href="https://www.behance.net/avroproduction" target="_blank" class="magnetic"><i data-lucide="external-link"></i> Behance</a>
-        <a href="https://linkedin.com/in/avroproduction" target="_blank" class="magnetic"><i data-lucide="linkedin"></i> LinkedIn</a>
-        <a href="https://pinterest.com/avroproduction" target="_blank" class="magnetic"><i data-lucide="layout-grid"></i> Pinterest</a>
-      </div>
+    <h2 style="font-size: clamp(28px, 5vw, 48px); font-weight: 900; letter-spacing: -2px; margin-bottom: 15px;">Let's Collaborate</h2>
+    <p style="opacity: 0.5; font-size: 16px; max-width: 500px; margin: 0 auto 30px;">
+      Accepting select branding and digital design projects for 2026.
+    </p>
+    
+    <div class="socials">
+      <a href="mailto:hello@avro.pro" class="magnetic"><i data-lucide="mail"></i> Email</a>
+      <a href="https://www.behance.net/avroproduction" target="_blank" class="magnetic"><i data-lucide="external-link"></i> Behance</a>
+      <a href="https://linkedin.com/in/avroproduction" target="_blank" class="magnetic"><i data-lucide="linkedin"></i> LinkedIn</a>
+      <a href="https://pinterest.com/avroproduction" target="_blank" class="magnetic"><i data-lucide="layout-grid"></i> Pinterest</a>
     </div>
   </div>
 </section>
 
 <footer>
-  AVRO PRODUCTION — ALL RIGHTS RESERVED © 2026
+  AVRO PRODUCTION — © 2026
 </footer>
 
 <script>
-// Initialize Icons
 lucide.createIcons();
 
-// Visualizer Generation
+// Visualizer Bars
 const vis = document.getElementById('visualizer');
-for(let i=0; i<40; i++) {
-  const bar = document.createElement('div');
-  bar.style.flex = "1";
-  bar.style.margin = "0 1px";
-  bar.style.background = "var(--accent)";
-  bar.style.borderRadius = "2px 2px 0 0";
-  bar.style.height = "10%";
-  bar.classList.add('v-bar');
-  vis.appendChild(bar);
+const barCount = 30;
+if (vis) {
+  for(let i=0; i<barCount; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'v-bar';
+    bar.style.flex = "1";
+    bar.style.margin = "0 1px";
+    bar.style.background = "var(--accent)";
+    bar.style.height = "5%";
+    vis.appendChild(bar);
+  }
 }
 
-// Glare Mouse Tracking
+// Glare Interaction
 document.querySelectorAll('.image-card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const rect = card.getBoundingClientRect();
@@ -472,15 +492,15 @@ document.querySelectorAll('.image-card').forEach(card => {
   });
 });
 
-// Magnetic Elements
+// Magnetic Effect
 document.addEventListener('mousemove', e => {
+  if (window.innerWidth < 850) return;
   document.querySelectorAll('.magnetic').forEach(btn => {
     const rect = btn.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
     const dist = Math.sqrt(x*x + y*y);
-    
-    if (dist < 80) {
+    if (dist < 70) {
       btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
     } else {
       btn.style.transform = `translate(0, 0)`;
@@ -488,53 +508,113 @@ document.addEventListener('mousemove', e => {
   });
 });
 
-// Scroll Spy
-const spyObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.getAttribute('id');
-      document.querySelectorAll('.nav-link').forEach(l => {
-        l.classList.toggle('active', l.getAttribute('href') === `#${id}`);
-      });
-    }
-  });
-}, { threshold: 0.3, rootMargin: "-20% 0px -60% 0px" });
-
-document.querySelectorAll('section[id]').forEach(s => spyObserver.observe(s));
-
-// Theme & Music
+// Audio & Animation Logic
 let isPlaying = false;
-const audio = new Audio(); 
+let animations = [];
 
 function toggleMusic() {
-  isPlaying = !isPlaying;
-  document.getElementById('musicIcon').parentElement.classList.toggle('active', isPlaying);
-  document.getElementById('visualizer').style.opacity = isPlaying ? "0.4" : "0.1";
+  const audio = document.getElementById('bgm');
+  const visualizer = document.getElementById('visualizer');
+  const musicIconElement = document.getElementById('musicIcon');
   
-  if(isPlaying) {
-    document.querySelectorAll('.v-bar').forEach(bar => {
-      bar.animate([
-        { height: '10%' },
-        { height: Math.random() * 80 + 20 + '%' }
-      ], {
-        duration: Math.random() * 500 + 500,
-        iterations: Infinity,
-        direction: 'alternate',
-        easing: 'ease-in-out'
-      });
-    });
+  if (!audio || !visualizer || !musicIconElement) return;
+
+  // The parent might change if Lucide replaces icons
+  const musicBtn = musicIconElement.closest('.icon-btn');
+
+  if (isPlaying) {
+    audio.pause();
+    visualizer.style.opacity = "0.1";
+    if (musicBtn) musicBtn.style.color = "var(--text)";
+    animations.forEach(a => a.cancel());
+    animations = [];
+    document.querySelectorAll('.v-bar').forEach(b => b.style.height = "5%");
   } else {
-    document.querySelectorAll('.v-bar').forEach(bar => bar.getAnimations().forEach(a => a.cancel()));
+    audio.play().then(() => {
+      visualizer.style.opacity = "0.4";
+      if (musicBtn) musicBtn.style.color = "var(--accent)";
+      startBars();
+    }).catch(e => {
+      console.log("Audio blocked or source issue.");
+      // Fallback state if play fails
+      isPlaying = false;
+    });
   }
+  isPlaying = !isPlaying;
 }
 
-function toggleMode() {
-  document.body.classList.toggle('light');
-  const isLight = document.body.classList.contains('light');
-  document.getElementById('themeIcon').setAttribute('data-lucide', isLight ? 'moon' : 'sun');
+function startBars() {
+  // Clear existing animations if any
+  animations.forEach(a => a.cancel());
+  animations = [];
+  
+  document.querySelectorAll('.v-bar').forEach(bar => {
+    const anim = bar.animate([
+      { height: '5%' },
+      { height: (Math.random() * 60 + 20) + '%' }
+    ], {
+      duration: Math.random() * 400 + 400,
+      iterations: Infinity,
+      direction: 'alternate',
+      easing: 'ease-in-out'
+    });
+    animations.push(anim);
+  });
+}
+
+// Mobile Menu
+function toggleMenu() {
+  const nav = document.getElementById('mainNav');
+  const icon = document.getElementById('menuIcon');
+  if (!nav || !icon) return;
+  
+  nav.classList.toggle('active');
+  const isActive = nav.classList.contains('active');
+  icon.setAttribute('data-lucide', isActive ? 'x' : 'menu');
   lucide.createIcons();
 }
 
+// Close mobile menu on click
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    const nav = document.getElementById('mainNav');
+    const icon = document.getElementById('menuIcon');
+    if (nav) nav.classList.remove('active');
+    if (icon) {
+      icon.setAttribute('data-lucide', 'menu');
+      lucide.createIcons();
+    }
+  });
+});
+
+// Scroll Spy
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+window.addEventListener('scroll', () => {
+  let current = "";
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    if (window.scrollY >= sectionTop - 150) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+  });
+});
+
+// Theme Toggle
+function toggleMode() {
+  document.body.classList.toggle('light');
+  const icon = document.getElementById('themeIcon');
+  if (icon) {
+    const isLight = document.body.classList.contains('light');
+    icon.setAttribute('data-lucide', isLight ? 'moon' : 'sun');
+    lucide.createIcons();
+  }
+}
 </script>
 
 </body>
