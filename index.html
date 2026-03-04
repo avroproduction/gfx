@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<!-- Critical for showing Behance images: blocks the referrer so the CDN doesn't block the image -->
+<!-- Critical for showing Behance images and proper handshakes -->
 <meta name="referrer" content="no-referrer">
 <title>Avro Production — Graphic Design Portfolio</title>
 
@@ -36,7 +36,6 @@ body.light{
 *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
 
 body{
-  /* Apple System Font Stack */
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro", "Helvetica Neue", Arial, sans-serif;
   background:var(--bg);
   color:var(--text);
@@ -45,7 +44,7 @@ body{
   -webkit-font-smoothing: antialiased;
 }
 
-/* Liquid Background Gradient Blobs */
+/* Liquid Background Effect */
 body::before {
   content: "";
   position: fixed;
@@ -104,7 +103,7 @@ nav a{
 }
 nav a:hover{ opacity:1; color:var(--accent); }
 
-/* VISUALIZER */
+/* AUDIO REACTIVE VISUALIZER */
 .visualizer {
   position: absolute;
   bottom: 0;
@@ -116,7 +115,7 @@ nav a:hover{ opacity:1; color:var(--accent); }
   justify-content: space-between;
   pointer-events: none; 
   z-index: 1;
-  opacity: 0.3; 
+  opacity: 0.35; 
 }
 .visualizer.active { display: flex; }
 .bar {
@@ -125,12 +124,8 @@ nav a:hover{ opacity:1; color:var(--accent); }
   background: var(--accent);
   border-radius: 4px 4px 0 0;
   transform-origin: bottom;
-  animation: bounce 1.2s ease-in-out infinite alternate;
-}
-
-@keyframes bounce {
-  0% { transform: scaleY(0.1); opacity: 0.3; }
-  100% { transform: scaleY(1); opacity: 0.9; }
+  height: 5%; /* Initial height */
+  transition: height 0.05s ease; /* Smooth transition for the JS values */
 }
 
 /* =============================
@@ -174,7 +169,6 @@ section{ padding: 120px 6% 60px; }
   transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
   text-decoration: none;
   position: relative;
-  /* Emerald liquid gradient fallback */
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(5, 150, 105, 0.15));
 }
 
@@ -195,7 +189,6 @@ section{ padding: 120px 6% 60px; }
 
 .image-card:hover img { transform: scale(1.1); }
 
-/* Category Badge */
 .badge {
   position: absolute;
   top: 24px;
@@ -309,7 +302,7 @@ footer { text-align: center; padding: 60px 6% 40px; opacity: 0.4; font-size: 13p
 </head>
 <body>
 
-<audio id="bgm" loop>
+<audio id="bgm" crossorigin="anonymous" loop>
   <source src="audio/bgm.mp3" type="audio/mpeg">
 </audio>
 
@@ -319,8 +312,8 @@ footer { text-align: center; padding: 60px 6% 40px; opacity: 0.4; font-size: 13p
   <a href="index.html" class="logo"><h1>Avro Production</h1></a>
 
   <div class="visualizer" id="visualizer">
-    <!-- Generated Bars -->
-    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    <!-- Generated Bars for frequency mapping -->
+    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
   </div>
   
   <div class="nav-actions">
@@ -335,7 +328,7 @@ footer { text-align: center; padding: 60px 6% 40px; opacity: 0.4; font-size: 13p
       <a href="#contact">Contact</a>
     </nav>
 
-    <button class="icon-btn" onclick="toggleMusic()" title="Toggle Music">
+    <button class="icon-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle Music">
       <i data-lucide="music" id="musicIcon"></i>
     </button>
     <button class="icon-btn" onclick="toggleMode()" title="Switch Theme">
@@ -353,11 +346,11 @@ footer { text-align: center; padding: 60px 6% 40px; opacity: 0.4; font-size: 13p
   <div class="grid">
     <a href="https://www.behance.net/avroproduction" target="_blank" rel="noopener noreferrer" class="image-card">
       <span class="badge">Branding</span>
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/039c04207865239.66e44040a45e4.jpg" referrerpolicy="no-referrer" loading="lazy" alt="Branding 1">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/039c04207865239.66e44040a45e4.jpg" alt="Project 1">
     </a>
     <a href="https://www.behance.net/avroproduction" target="_blank" rel="noopener noreferrer" class="image-card">
       <span class="badge">Branding</span>
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/d7f8ca233159715.68aa552095018.png" referrerpolicy="no-referrer" loading="lazy" alt="Branding 2">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/d7f8ca233159715.68aa552095018.png" alt="Project 2">
     </a>
   </div>
 </section>
@@ -368,15 +361,15 @@ footer { text-align: center; padding: 60px 6% 40px; opacity: 0.4; font-size: 13p
   <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));">
     <a href="https://www.behance.net/avroproduction" target="_blank" rel="noopener noreferrer" class="image-card" style="aspect-ratio: 1/1;">
       <span class="badge">Logo</span>
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/e65e52207865239.66e44040a3317.jpg" referrerpolicy="no-referrer" loading="lazy" alt="Logo 1">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/e65e52207865239.66e44040a3317.jpg" alt="Logo 1">
     </a>
     <a href="https://www.behance.net/avroproduction" target="_blank" rel="noopener noreferrer" class="image-card" style="aspect-ratio: 1/1;">
       <span class="badge">Logo</span>
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/90c10b207865239.66e44040a3952.jpg" referrerpolicy="no-referrer" loading="lazy" alt="Logo 2">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/90c10b207865239.66e44040a3952.jpg" alt="Logo 2">
     </a>
     <a href="https://www.behance.net/avroproduction" target="_blank" rel="noopener noreferrer" class="image-card" style="aspect-ratio: 1/1;">
       <span class="badge">Logo</span>
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/c77649207865239.66e44040a2334.jpg" referrerpolicy="no-referrer" loading="lazy" alt="Logo 3">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/c77649207865239.66e44040a2334.jpg" alt="Logo 3">
     </a>
   </div>
 </section>
@@ -385,14 +378,13 @@ footer { text-align: center; padding: 60px 6% 40px; opacity: 0.4; font-size: 13p
 <section id="social">
   <h2 class="section-title">Social Media Posts</h2>
   <div class="grid">
-    <!-- Updated with specific project link -->
     <a href="https://www.behance.net/gallery/234202093/My-recent-Social-Media-Post-Design-for-Local-Client" target="_blank" rel="noopener noreferrer" class="image-card">
       <span class="badge">Social</span>
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/3e790a234202093.67c570f7166e4.jpg" referrerpolicy="no-referrer" loading="lazy" alt="Recent Project">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/3e790a234202093.67c570f7166e4.jpg" alt="Social Post">
     </a>
     <a href="https://www.behance.net/avroproduction" target="_blank" rel="noopener noreferrer" class="image-card">
       <span class="badge">Social</span>
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5e0051199839447.665796a56f082.jpg" referrerpolicy="no-referrer" loading="lazy" alt="Social 2">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5e0051199839447.665796a56f082.jpg" alt="Social Post 2">
     </a>
   </div>
 </section>
@@ -403,15 +395,15 @@ footer { text-align: center; padding: 60px 6% 40px; opacity: 0.4; font-size: 13p
   <div class="grid">
     <a href="https://www.behance.net/avroproduction" target="_blank" rel="noopener noreferrer" class="image-card" style="aspect-ratio: 2/3;">
       <span class="badge">Cover</span>
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/6e1a72173551531.6491754407380.jpg" referrerpolicy="no-referrer" loading="lazy" alt="Book 1">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/6e1a72173551531.6491754407380.jpg" alt="Book 1">
     </a>
     <a href="https://www.behance.net/avroproduction" target="_blank" rel="noopener noreferrer" class="image-card" style="aspect-ratio: 2/3;">
       <span class="badge">Cover</span>
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/776077173551531.6491754408014.jpg" referrerpolicy="no-referrer" loading="lazy" alt="Book 2">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/776077173551531.6491754408014.jpg" alt="Book 2">
     </a>
     <a href="https://www.behance.net/avroproduction" target="_blank" rel="noopener noreferrer" class="image-card" style="aspect-ratio: 2/3;">
       <span class="badge">Cover</span>
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/f875f4173551531.6491754406ce9.jpg" referrerpolicy="no-referrer" loading="lazy" alt="Book 3">
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/f875f4173551531.6491754406ce9.jpg" alt="Book 3">
     </a>
   </div>
 </section>
@@ -439,18 +431,75 @@ function initLucide() {
   else { setTimeout(initLucide, 400); }
 }
 
-// Randomize Visualizer Bar animations
-const bars = document.querySelectorAll('.bar');
-bars.forEach((bar) => {
-  const duration = (Math.random() * 0.5 + 0.6).toFixed(2);
-  const delay = (Math.random() * 0.8).toFixed(2);
-  const height = Math.floor(Math.random() * 65 + 20); 
-  bar.style.animationDuration = `${duration}s`;
-  bar.style.animationDelay = `${delay}s`;
-  bar.style.height = `${height}%`;
-});
-
 initLucide();
+
+// =============================
+// WEB AUDIO API REAL-TIME SYNC
+// =============================
+const audio = document.getElementById('bgm');
+const visualizer = document.getElementById('visualizer');
+const musicIcon = document.getElementById('musicIcon');
+const header = document.getElementById('header');
+const bars = document.querySelectorAll('.bar');
+
+let audioCtx, analyser, source, dataArray;
+let isPlaying = false;
+let animationId;
+
+function setupAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioCtx.createAnalyser();
+    source = audioCtx.createMediaElementSource(audio);
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+    analyser.fftSize = 64; // Low FFT size for responsive bar visualization
+    const bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+  }
+}
+
+function renderVisualizer() {
+  if (!isPlaying) return;
+  
+  animationId = requestAnimationFrame(renderVisualizer);
+  analyser.getByteFrequencyData(dataArray);
+
+  // Map frequency data to visualizer bars
+  bars.forEach((bar, i) => {
+    // We map frequencies to bars, scaling them based on their data
+    // Bass frequencies are usually at the beginning of the array
+    const value = dataArray[i % dataArray.length];
+    const height = (value / 255) * 100;
+    
+    // Smoothly apply height (minimum 5% to keep it visible)
+    bar.style.height = `${Math.max(5, height)}%`;
+  });
+}
+
+function toggleMusic() {
+  // Browsers require interaction to start AudioContext
+  setupAudio();
+  
+  if (isPlaying) {
+    audio.pause();
+    cancelAnimationFrame(animationId);
+    visualizer.classList.remove('active');
+    header.classList.remove('music-active');
+    document.getElementById('musicBtn').classList.remove('music-playing');
+  } else {
+    audio.play().catch(err => console.error("Interaction required"));
+    visualizer.classList.add('active');
+    header.classList.add('music-active');
+    document.getElementById('musicBtn').classList.add('music-playing');
+    renderVisualizer();
+  }
+  isPlaying = !isPlaying;
+}
+
+// =============================
+// CORE UX LOGIC
+// =============================
 
 function toggleMenu() {
   document.getElementById('mainNav').classList.toggle('active');
@@ -464,28 +513,7 @@ function toggleMode(){
   initLucide();
 }
 
-const audio = document.getElementById('bgm');
-const visualizer = document.getElementById('visualizer');
-const musicIcon = document.getElementById('musicIcon');
-const header = document.getElementById('header');
-let isPlaying = false;
-
-function toggleMusic() {
-  if (isPlaying) {
-    audio.pause();
-    visualizer.classList.remove('active');
-    header.classList.remove('music-active');
-    musicIcon.parentElement.classList.remove('music-playing');
-  } else {
-    audio.play().catch(() => {});
-    visualizer.classList.add('active');
-    header.classList.add('music-active');
-    musicIcon.parentElement.classList.add('music-playing');
-  }
-  isPlaying = !isPlaying;
-}
-
-// Scroll Reveals
+// Scroll Reveal
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if(entry.isIntersecting) entry.target.classList.add('visible');
@@ -494,7 +522,7 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.image-card, .section-title, .reveal-text').forEach(el => revealObserver.observe(el));
 
-// Close menu on link click
+// Nav Auto-close
 document.querySelectorAll('nav a').forEach(link => {
   link.addEventListener('click', () => {
     document.getElementById('mainNav').classList.remove('active');
@@ -502,11 +530,10 @@ document.querySelectorAll('nav a').forEach(link => {
   });
 });
 
-// Image error fallback
+// Image Error Fallback
 document.querySelectorAll('.image-card img').forEach(img => {
   img.addEventListener('error', function() {
-    this.style.display = 'none';
-    this.parentElement.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.25))';
+    this.style.opacity = '0';
   });
 });
 </script>
